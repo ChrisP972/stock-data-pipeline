@@ -1,0 +1,18 @@
+[project]
+name = "stock-data-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "click>=8.3.1",
+    "pandas>=3.0.1",
+    "psycopg[binary]>=3.3.3",
+    "sqlalchemy>=2.0.47",
+    "yfinance>=1.2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pgcli>=4.3.0",
+]
