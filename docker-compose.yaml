@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: "stocks"
+    ports:
+      - "5432:5432"
+    volumes:
+      - stocks_postgres_data:/var/lib/postgresql
+
+  app:
+    build: .
+  
+volumes:
+  stocks_postgres_data:

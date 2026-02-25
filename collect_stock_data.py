@@ -2,6 +2,7 @@ import yfinance as yf
 import click
 import pandas as pd
 from sqlalchemy import insert
+from sqlalchemy.exc import IntegrityError
 from db import engine, init_db, stock_table
 
 YF_TO_DB = {
@@ -18,11 +19,10 @@ YF_TO_DB = {
 
 
 @click.command()
-@click.option('--target-table', default='stock_price_history', help='Target table name')
 @click.option('--ticker', default='AAPL', help='Stock ticker')
 @click.option('--period', default='1y', help='Time period')
 @click.option('--interval', default='1d', help='Time interval')
-def collect_stock_data(target_table, ticker, period, interval):
+def collect_stock_data(ticker, period, interval):
 
     init_db()
 
@@ -41,8 +41,16 @@ def collect_stock_data(target_table, ticker, period, interval):
     # Keep columns from db schema
     rows = data[list(stock_table.c.keys())].to_dict(orient="records")
 
-    with engine.begin() as conn:
-        conn.execute(insert(stock_table), rows)
+    # Insert rows into stock table
+    try:
+        with engine.begin() as conn:
+            conn.execute(insert(stock_table), rows)
+
+    except IntegrityError as e:
+        if "duplicate key value" in str(e):
+            print("Duplicate data (ticker + time) detected, data already exists")
+        else:
+            raise
 
 
 if __name__ == '__main__':

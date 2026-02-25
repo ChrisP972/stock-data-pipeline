@@ -3,7 +3,7 @@ from sqlalchemy import (
     Integer, String, DateTime)
 
 # Create database connection
-engine = create_engine(f'postgresql+psycopg://root:root@localhost:5432/stocks')
+engine = create_engine(f'postgresql+psycopg://root:root@postgres:5432/stocks')
 
 # Create schema of the stock data table
 metadata_obj = MetaData()
