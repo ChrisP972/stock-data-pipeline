@@ -3,7 +3,7 @@ from sqlalchemy import (
     Integer, String, DateTime)
 
 # Create database connection
-engine = create_engine(f'postgresql+psycopg://root:root@postgres:5432/stocks')
+engine = create_engine(f"postgresql+psycopg://root:root@postgres:5432/stocks")
 
 # Create schema of the stock data table
 metadata_obj = MetaData()
@@ -11,13 +11,13 @@ metadata_obj = MetaData()
 stock_table = Table(
     "stock_price_history",
     metadata_obj,
-    Column('ticker', String, primary_key=True),
-    Column('time', DateTime, primary_key=True),
-    Column('open', Double),
-    Column('high', Double),
-    Column('low', Double),
-    Column('close', Double),
-    Column('volume', Integer),
+    Column("ticker", String, primary_key=True),
+    Column("time", DateTime, primary_key=True),
+    Column("open", Double),
+    Column("high", Double),
+    Column("low", Double),
+    Column("close", Double),
+    Column("volume", Integer),
 )
 
 

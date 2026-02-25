@@ -19,9 +19,9 @@ YF_TO_DB = {
 
 
 @click.command()
-@click.option('--ticker', default='AAPL', help='Stock ticker')
-@click.option('--period', default='1y', help='Time period')
-@click.option('--interval', default='1d', help='Time interval')
+@click.option("--ticker", default="AAPL", help="Stock ticker")
+@click.option("--period", default="1y", help="Time period")
+@click.option("--interval", default="1d", help="Time interval")
 def collect_stock_data(ticker, period, interval):
 
     init_db()
@@ -30,7 +30,7 @@ def collect_stock_data(ticker, period, interval):
     data = yf.Ticker(ticker).history(period=period, interval=interval)
 
     # Add ticker column
-    data.insert(0, 'Ticker', ticker)
+    data.insert(0, "Ticker", ticker)
 
     # Convert date/datetime index to real column
     data = data.reset_index()
@@ -53,5 +53,5 @@ def collect_stock_data(ticker, period, interval):
             raise
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     collect_stock_data()
