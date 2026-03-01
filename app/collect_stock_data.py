@@ -2,7 +2,7 @@ import yfinance as yf
 import click
 import pandas as pd
 from sqlalchemy import insert
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from db import engine, init_db, stock_table
 
 YF_TO_DB = {
@@ -20,7 +20,7 @@ YF_TO_DB = {
 
 @click.command()
 @click.option("--ticker", default="AAPL", help="Stock ticker")
-@click.option("--period", default="1y", help="Time period")
+@click.option("--period", default="2y", help="Time period")
 @click.option("--interval", default="1d", help="Time interval")
 def collect_stock_data(ticker, period, interval):
 
@@ -42,16 +42,10 @@ def collect_stock_data(ticker, period, interval):
     rows = data[list(stock_table.c.keys())].to_dict(orient="records")
 
     # Insert rows into stock table
-    try:
-        with engine.begin() as conn:
-            conn.execute(insert(stock_table), rows)
-
-    except IntegrityError as e:
-        if "duplicate key value" in str(e):
-            print("Duplicate data (ticker + time) detected, data already exists")
-        else:
-            raise
-
+    with engine.begin() as conn:
+        insert_stmt = pg_insert(stock_table).values(rows)
+        insert_stmt = insert_stmt.on_conflict_do_nothing(index_elements=["ticker", "time"])
+        conn.execute(insert_stmt)   
 
 if __name__ == "__main__":
     collect_stock_data()

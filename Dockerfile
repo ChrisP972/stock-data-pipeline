@@ -17,7 +17,4 @@ COPY "pyproject.toml" "uv.lock"  ".python-version" ./
 RUN uv sync --locked
 
 # Copy application code
-COPY collect_stock_data.py db.py ./
-
-# Set entry point
-ENTRYPOINT ["uv", "run", "python", "collect_stock_data.py"]
+COPY app/ .

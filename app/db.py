@@ -1,6 +1,6 @@
 from sqlalchemy import (
     create_engine, MetaData, Table, Column, Double,
-    Integer, String, DateTime)
+    String, DateTime, BigInteger)
 
 # Create database connection
 engine = create_engine(f"postgresql+psycopg://root:root@postgres:5432/stocks")
@@ -17,7 +17,7 @@ stock_table = Table(
     Column("high", Double),
     Column("low", Double),
     Column("close", Double),
-    Column("volume", Integer),
+    Column("volume", BigInteger),
 )
 
 

@@ -10,10 +10,20 @@ services:
     volumes:
       - stocks_postgres_data:/var/lib/postgresql
 
-  app:
+  collect:
     build: .
     depends_on:
       - postgres
-  
+    entrypoint: ["uv", "run", "python", "collect_stock_data.py"]
+
+  dashboard:
+    build: .
+    depends_on:
+      - postgres 
+      - collect
+    command: ["uv", "run", "streamlit", "run", "display.py", "--server.address=0.0.0.0", "--server.port=8501"]
+    ports: 
+      - "8501:8501"
+
 volumes:
   stocks_postgres_data:
