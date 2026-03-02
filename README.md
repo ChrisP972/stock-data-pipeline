@@ -7,10 +7,20 @@ This project is a containerised data pipeline designed to fetch financial data f
 2. 
 
 ## Technologies Used
-- Language: Python (yfinance for API calls)
-- Database: PostgreSQL
-- Dashboard: Streamlit
-- Orchestration: Docker
+Language: Python 
+- yfinance - API ingestion
+- pandas - data transformation
+- SQLAlchemy - database abstraction
+- Click - CLI configuration
+
+Database: PostgreSQL
+- pyscopg2 driver
+
+Dashboard: Streamlit
+
+Containerisation: Docker & Docker Compose
+
+Package Management: pyproject
 
 ## Quick Start
 ### Prerequisites
@@ -28,13 +38,11 @@ cd stock-data-pipeline
 docker compose up --build
 ```
 
-3. Access Dashboard
-
-    Open: http://localhost:8501
+3. Access the dashboard at [http://localhost:8501](http://localhost:8501)
 
 4. Run pipeline for additional stocks
 ```
-docker compose run --rm collect --ticker 
+docker compose run --rm collect --ticker MSFT
 ```
 
 ## Project Structure
@@ -51,5 +59,8 @@ stock-data-pipeline
 ```
 
 ## Improvements
-- Dashboard: Date range filter, advanced metrics, 
-- CI/CD: 
+- Dashboard: Date range filter, advanced metrics, ticker comparison, multiple series selection, KPIs
+- CI: Add automated testing on every push to GitHub
+- Cloud Deployment: Managed db, Terraform
+- Scheduling
+- Data Transformation
