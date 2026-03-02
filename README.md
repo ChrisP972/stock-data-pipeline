@@ -3,9 +3,37 @@
 This project is a containerised data pipeline designed to fetch financial data from Yahoo Finance, process it into a PostgreSQL database and visualise using Streamlit.
 
 ## Architecture
-1. Data extracted from Yahoo Finance using yfinance
-2. 
 
+```mermaid
+flowchart LR
+    User[User]
+
+    subgraph Ingestion_Service [Ingestion Service]
+        CLI[Click CLI Script]
+        YF[yfinance API]
+        ORM[SQLAlchemy]
+    end
+
+    subgraph Dashboard_Service [Dashboard Service]
+        ST[Streamlit Dashboard]
+    end
+
+    subgraph Postgres_Container [Postgres Container]
+        DB[(Postgres Database)]
+    end
+
+    Volume[(Docker Volume)]
+
+    User --> CLI
+    User --> ST
+    YF --> ORM
+
+    CLI --> YF
+    ORM --> DB
+
+    DB --> ST
+    DB --> Volume
+```
 ## Technologies Used
 Language: Python 
 - yfinance - API ingestion
