@@ -63,14 +63,29 @@ cd stock-data-pipeline
 
 2. Start all services
 ```
-docker compose up --build
+docker compose up --d
 ```
 
 3. Access the dashboard at [http://localhost:8501](http://localhost:8501)
 
-4. Run pipeline for additional stocks
+## Usage
+### Pipeline Parameters
+For example parameters that can be passed to yfinance, refer to the [yfinance documentation](https://ranaroussi.github.io/yfinance/reference/api/yfinance.download.html).
+
+| Option       | Description       | Default |
+|-------------|--------------------|---------|
+| `--ticker`  | Stock ticker       | AAPL    |
+| `--period`  | Time period        | 2y      |
+| `--interval`| Time interval      | 1d      |
+
+### Running Pipeline for Additional Stock
 ```
-docker compose run --rm collect --ticker MSFT
+docker compose run --rm collect --ticker MSFT --period 1y --interval 1d
+```
+
+### Stop & Remove Data
+```
+docker compose down -v
 ```
 
 ## Project Structure
